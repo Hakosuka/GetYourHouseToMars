@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
 import com.example.android.marsrealestate.network.MarsProperty
 
-//TODO Create PhotoGridAdapter which uses DiffCallback
 class PhotoGridAdapter : ListAdapter<MarsProperty,
         PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback){
     class MarsPropertyViewHolder(private var binding: GridViewItemBinding) :
@@ -57,6 +56,3 @@ class PhotoGridAdapter : ListAdapter<MarsProperty,
     }
 
 }
-//TODO Add unimplemented members for PhotoGridAdapte, create and implement DiffCallback companion
-//TODO Create and implement the MarsPropertyViewHolder inner class
-//TODO Override and implement onCreateViewHolder and onBindViewHolder
