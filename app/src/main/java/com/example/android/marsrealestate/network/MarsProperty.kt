@@ -21,12 +21,12 @@ import com.squareup.moshi.Json
 
 /**
  * Data class to represent properties for sale.
- * @param id: A unique ID for the property
+ * @param id: A unique ID for the properties
  * @param imgSrcUrl: the URL of the source image.
  * A @Json annotation remaps the img_src JSON field to it, because img_src is going to look weird
  * among all the camelCase stuff.
- * @param type: The type of property (e.g. apartment, house)
- * @param price: The price of the property. All JSON numbers can be stored as Kotlin doubles.
+ * @param type: The type of properties (e.g. apartment, house)
+ * @param price: The price of the properties. All JSON numbers can be stored as Kotlin doubles.
  */
 data class MarsProperty(
         val id: String,
