@@ -39,7 +39,7 @@ private val retrofit = Retrofit.Builder()
         .build()
 
 interface MarsApiService {
-    @GET("realestate") //specifies the endpoint for the JSON real estate response
+    @GET("realestate") //specifies the endpoint for the JSON real estate status
     fun getProperties():
             Deferred<List<MarsProperty>> //Deferred types don't block threads
 }
