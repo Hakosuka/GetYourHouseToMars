@@ -17,7 +17,9 @@
 
 package com.example.android.marsrealestate.network
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Data class to represent properties for sale.
@@ -28,9 +30,11 @@ import com.squareup.moshi.Json
  * @param type: The type of properties (e.g. apartment, house)
  * @param price: The price of the properties. All JSON numbers can be stored as Kotlin doubles.
  */
+@Parcelize
 data class MarsProperty(
         val id: String,
         @Json(name = "img_src") val imgSrcUrl: String,
         val type: String,
-        val price: Double
-)
+        val price: Double) : Parcelable {
+
+}

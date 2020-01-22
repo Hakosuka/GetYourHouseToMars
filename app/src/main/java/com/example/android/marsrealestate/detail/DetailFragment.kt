@@ -35,6 +35,13 @@ class DetailFragment : Fragment() {
         val application = requireNotNull(activity).application
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.setLifecycleOwner(this)
+        /*  Assume that selectedProperty isn't null; if it is, something's gone wrong and it should
+            throw a NullPointerException anyway. */
+        val selectedMarsProperty = DetailFragmentArgs.fromBundle(arguments!!).selectedProperty
+        val viewModelFactory = DetailViewModelFactory(selectedMarsProperty, application)
+        binding.viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(DetailViewModel::class.java)
+
         return binding.root
     }
 }

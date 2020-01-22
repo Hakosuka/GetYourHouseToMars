@@ -36,15 +36,17 @@ enum class MarsApiStatus { LOADING, ERROR, DONE }
 class OverviewViewModel : ViewModel() {
     // The internal MutableLiveData String that stores the status of the most recent request
     private val _status = MutableLiveData<MarsApiStatus>()
-
     // The external immutable LiveData for the request status String
     val status: LiveData<MarsApiStatus>
         get() = _status
 
     private val _properties = MutableLiveData<List<MarsProperty>>()
-
     val properties: LiveData<List<MarsProperty>>
         get() = _properties
+
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
 
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -58,7 +60,8 @@ class OverviewViewModel : ViewModel() {
     }
 
     /**
-     * Sets the value of the status LiveData to the Mars API status.
+     * This downloads the JSON data to be used in the app, and the status (LOADING/DONE/ERROR) is
+     * used to determine the images to be used in the RecyclerView of the UI.
      */
     private fun getMarsRealEstateProperties() {
         coroutineScope.launch {
@@ -81,5 +84,17 @@ class OverviewViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    /**
+     * The following two methods handle navigation upon selecting a property from the grid.
+     * @param selectedMarsProperty: The property the user has selected
+     */
+    fun displayPropertyDetails(selectedMarsProperty: MarsProperty) {
+        _navigateToSelectedProperty.value = selectedMarsProperty
+    }
+
+    fun displayPropertyDetailsComplete(){
+        _navigateToSelectedProperty.value = null
     }
 }

@@ -46,13 +46,23 @@ fun bindImage(imgView: ImageView, imgUrl: String?){
         val imgUri = it.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
                 .load(imgUri)
-                .apply(RequestOptions() //This is still necessary despite bindStatus(), when I took this part out the screen could only show two pictures side-by-side
+                /**
+                 * The following line is still necessary despite bindStatus(), when I took it out,
+                 * the images in the grid would span the entire length of the screen beneath the
+                 * app bar.
+                 */
+                .apply(RequestOptions()
                         .placeholder(R.drawable.loading_animation)
                         .error(R.drawable.ic_broken_image))
                 .into(imgView)
     }
 }
 
+/**
+ * Changes the placeholder/error icons depending on the MarsApiStatus.
+ * @param statusImageView: the [ImageView] in which the icon is displayed
+ * @param status: the [MarsApiStatus] of the downloaded image
+ */
 @BindingAdapter("marsApiStatus")
 fun bindStatus(statusImageView: ImageView, status: MarsApiStatus?) {
     when(status) {
