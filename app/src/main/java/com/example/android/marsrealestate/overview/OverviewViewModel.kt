@@ -21,6 +21,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.marsrealestate.network.MarsApi
+import com.example.android.marsrealestate.network.MarsApiFilter
 import com.example.android.marsrealestate.network.MarsProperty
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -56,16 +57,18 @@ class OverviewViewModel : ViewModel() {
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
     init {
-        getMarsRealEstateProperties()
+        getMarsRealEstateProperties(MarsApiFilter.SHOW_ALL)
     }
 
     /**
-     * This downloads the JSON data to be used in the app, and the status (LOADING/DONE/ERROR) is
-     * used to determine the images to be used in the RecyclerView of the UI.
+     * This uses a coroutine Deferred to download the JSON data to be used in the app, and is used
+     * to determine the images to be used in the [MarsProperty] [List] and [MarsApiStatus] [LiveData].
+     * @param filter: Determines which (if any) properties get filtered out of the search, defaults
+     * to showing all.
      */
-    private fun getMarsRealEstateProperties() {
+    private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
         coroutineScope.launch {
-            val getPropertiesDeferred = MarsApi.retrofitService.getProperties()
+            val getPropertiesDeferred = MarsApi.retrofitService.getProperties(filter.value)
             try {
                 _status.value = MarsApiStatus.LOADING
 
@@ -96,5 +99,9 @@ class OverviewViewModel : ViewModel() {
 
     fun displayPropertyDetailsComplete(){
         _navigateToSelectedProperty.value = null
+    }
+
+    fun updateFilter(filter: MarsApiFilter) {
+        getMarsRealEstateProperties(filter)
     }
 }
